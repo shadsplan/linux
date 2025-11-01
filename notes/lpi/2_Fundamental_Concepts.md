@@ -38,10 +38,17 @@
 ## 2.6 Programs
 - Program: Exists initially as source code, then compiled and linked into an executable file, and finally loaded into memory and run as a process.
 - Script: A text file containing commands to be directly processed by a program such as a shell or other command interpreter.
+- They live on disk as files, and when executed, they are loaded into memory and run as processes.
 
 ## 2.7 Processes
 - A process is an instance of an executing program. When a program is executed, the kernel loads the code of the program into virtual memory, allocates space for program variables, and sets up kernel bookkeeping data structures to record various information (such as process ID, termination status, user IDs, and group IDs) about the process.
 - For resources that are limited, such as memory, the kernel initially allocates some amount of the resource to the process, and adjusts this allocation over the lifetime of the process in response to the demands of the process and the overall system demand for that resource. When the process terminates, all such resources are released for reuse by other processes.
+
+### Process Memory Layout (each part is called a segment)
+- Text: the instructions of the program.
+- Data: the static variables used by the program.
+- Heap: an area from which programs can dynamically allocate extra memory.
+- Stack: a piece of memory that grows and shrinks as functions are called and return and that is used to allocate storage for local variables and function call linkage information.
 
 ### Process creation and program execution
 - A process can create a new process using the fork() system call. The process that calls fork() is referred to as the parent process, and the new process is referred to as the child process. The kernel creates the child process by making a duplicate of the parent process. The child inherits copies of the parent’s data, stack, and heap segments, which it may then modify independently of the parent’s copies.
@@ -62,7 +69,10 @@ hello world
 ```
 
 ## 2.8 Memory Mappings
-- The memory in one process’s mapping may be shared with mappings in other processes. This can occur either because two processes map the same region of a file or because a child process created by fork() inherits a mapping from its parent.
+- The memory in one process’s mapping may be shared with mappings in other processes. This can occur either because two processes map the same region of a file or because a child process created by fork() inherits a mapping from its parent. Two types of mappings:
+    - A file mapping maps a region of a file into the calling process’s virtual memory. Once mapped, the file’s contents can be accessed by operations on the bytes in the corresponding memory region. The pages of the mapping are automatically loaded from the file as required.
+    - By contrast, an anonymous mapping doesn’t have a corresponding file. Instead, the pages of the mapping are initialized to 0.
+- This was that IOS project I did where we used shared memory for IPC between processes.
 
 ## 2.10 Interprocess Communication and Synchronization
 - signals, which are used to indicate that an event has occurred;
