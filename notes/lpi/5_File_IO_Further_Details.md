@@ -5,16 +5,11 @@
 - There is not a one-to-one correspondence between file descriptors and open files. It is possible and useful to have multiple descriptors referring to the same open file. These file descriptors may be open in the same process or in different processes.
 
 3 data structures mantained by the kernel to keep track of open files:
-1. For each process, the kernel maintains a table of open file descriptors. Each entry in
-this table records information about a single file descriptor, including:
+1. For each process, the kernel maintains a table of open file descriptors. Each entry in this table records information about a single file descriptor, including:
     - a set of flags controlling the operation of the file descriptor
     - a reference to the open file description.
-2. The kernel maintains a system-wide table of all open file descriptions. (This table is
-sometimes referred to as the open file table, and its entries are sometimes called open
-file handles.) An open file description stores all information relating to an open file,
-including:
-    - the current file offset (as updated by read() and write(), or explicitly modified
-using lseek());
+2. The kernel maintains a system-wide table of all open file descriptions. (This table is sometimes referred to as the open file table, and its entries are sometimes called open file handles.) An open file description stores all information relating to an open file, including:
+    - the current file offset (as updated by read() and write(), or explicitly modified using lseek());
     - status flags specified when opening the file (i.e., the flags argument to open());
     - the file access mode (read-only, write-only, or read-write, as specified in open());
     - settings relating to signal-driven I/O (Section 63.3); and
