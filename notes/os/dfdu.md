@@ -174,7 +174,4 @@ TARGET                         SOURCE      FSTYPE      OPTIONS
 ├─/boot                        /dev/sda16  ext4        rw,relatime,discard
 │ └─/boot/efi                  /dev/sda15  vfat        rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=rem
 └─/mnt                         /dev/sdb1   ext4        rw,relatime
-
-
-
 ```
