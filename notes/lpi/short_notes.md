@@ -69,3 +69,27 @@ signal number, and in the case of realtime signals, a word (an integer or a poin
 ### 27.8 Summary
 - Using execve(), a process can replace the program that it is currently running by a new program. Arguments to the execve() call allow the specification of the argument list (argv) and environment list for the new program. Various similarly named library functions are layered on top of execve() and provide different interfaces to the same functionality.
 - All of the exec() functions can be used to load a binary executable file or to execute an interpreter script. When a process execs a script, the script’s interpreter program replaces the program currently being executed by the process. The script’s interpreter is normally identified by an initial line (starting with the characters #!) in the script that specifies the pathname of the interpreter. If no such line is present, then the script is executable only via execlp() or execvp(), and these functions exec the shell as the script interpreter.
+
+## Chapter 35. Process Priorities and Scheduling
+- We begin by describing the nice value, a process characteristic that influences the amount of CPU time that a process is allocated by the kernel scheduler.
+
+### 35.1 Process Priorities (Nice Values)
+On Linux, as with most other UNIX implementations, the default model for scheduling processes for use of the CPU is round-robin time-sharing. Under this model, each process in turn is permitted to use the CPU for a brief period of time, known as a time slice or quantum. Round-robin time-sharing satisfies two important requirements of an interactive multitasking system:
+1. Fairness: Each process gets a share of the CPU.
+2. Responsiveness: A process doesn’t need to wait for long periods before it receives use of the CPU.
+
+- Under the round-robin time-sharing algorithm, processes can’t exercise direct control over when and for how long they will be able to use the CPU. By default, each process in turn receives use of the CPU until its time slice runs out or it voluntarily gives up the CPU (for example, by putting itself to sleep or performing a disk read). If all processes attempt to use the CPU as much as possible (i.e., no process ever sleeps or blocks on an I/O operation), then they will receive a roughly equal share of the CPU.
+- However, one process attribute, the nice value, allows a process to indirectly influence the kernel’s scheduling algorithm. Each process has a nice value in the range –20 (high priority) to +19 (low priority); the default is 0 (refer to Figure 35-1). In traditional UNIX implementations, only privileged processes can assign themselves (or other processes) a negative (high) priority. Unprivileged processes can only lower their priority, by assuming a nice value greater than the default of 0. By doing this, they are being “nice” to other processes, and this fact gives the attribute its name.
+- The nice value is inherited by a child created via fork() and preserved across an exec().
+
+### Effect of the nice value
+- Processes are not scheduled in a strict hierarchy by nice value; rather, the nice value acts as weighting factor that causes the kernel scheduler to favor processes with higher priorities. Giving a process a low priority (i.e., high nice value) won’t cause it to be completely starved of the CPU, but causes it to receive relatively less CPU time.
+
+### 35.5 Summary
+- The default kernel scheduling algorithm employs a round-robin time-sharing policy. By default, all processes have equal access to the CPU under this policy, but we can set a process’s nice value to a number in the range –20 (high priority) to +19 (low priority) to cause the scheduler to favor or disfavor that process. However, even if we give a process the lowest priority, it is not completely starved of the CPU.
+- Linux also implements the POSIX realtime scheduling extensions. These allow an application to precisely control the allocation of the CPU to processes.
+- A process’s CPU affinity mask can be used to restrict the process to running on a subset of the CPUs available on a multiprocessor system. This can improve the performance of certain types of applications.
+
+# Chapter 36. Process Resources
+- Processes consume various system resources. The getrusage() system call allows a process to monitor certain of the resources consumed by itself and by its children.
+- The setrlimit() and getrlimit() system calls allow a process to set and retrieve limits on its consumption of various resources. Each resource limit has two components: a soft limit, which is what the kernel enforces when checking a process’s resource consumption, and a hard limit, which acts as a ceiling on the value of the soft limit. An unprivileged process can set the soft limit for a resource to any value in the range from 0 up to the hard limit, but can only lower the hard limit. A privileged process can make any changes to either limit value, as long as the soft limit is less than or equal to the hard limit. If a process encounters a soft limit, it is typically informed of the fact either by receiving a signal or via failure of the system call that attempts to exceed the limit.

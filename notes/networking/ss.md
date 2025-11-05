@@ -51,4 +51,19 @@ Netid       State        Recv-Q       Send-Q             Local Address:Port     
 tcp         LISTEN       0            4096                     0.0.0.0:22                      0.0.0.0:*                         
 tcp         ESTAB        0            372                     10.0.0.4:22                 108.28.[REDACTED]:54483                     
 tcp         LISTEN       0            4096                        [::]:22                         [::]:*                         
+
+# So apache2 doesn't show up here, most likely due to how forked processes work.
+# But we run a http server in the background, we can see it:
+
+shad@linux:~$ python3 -m http.server 8080 &
+[1] 4006
+
+shad@linux:~$ ss -tupna | grep -E "Netid|8080"
+Netid State  Recv-Q Send-Q Local Address:Port     Peer Address:Port Process                                    
+tcp   LISTEN 0      5            0.0.0.0:8080          0.0.0.0:*     users:(("python3",pid=4006,fd=3))
+
+# But also, lsof works because it shows processes with open files/sockets:
+shad@linux:~$ lsof -i :8080
+COMMAND  PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+python3 4006 shad    3u  IPv4  33974      0t0  TCP *:http-alt (LISTEN)
 ```
