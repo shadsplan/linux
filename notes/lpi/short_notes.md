@@ -6,7 +6,7 @@
 
 ## Chapter 8. Users and Groups
 - Each user has a unique login name and an associated numeric user ID. Users can belong to one or more groups, each of which also has a unique name and an associated numeric identifier. The primary purpose of these identifiers is to establish ownership of various system resources (e.g., files) and permissions for accessing them.
-- A user’s name and ID are defined in the /etc/passwd file, which also contains other information about the user. A user’s group memberships are defined by fields in the /etc/passwd and /etc/group files. A further file, /etc/shadow, which can be read only by privileged processes, is used to separate the sensitive password information from the publicly available user information in /etc/passwd.
+- A user's name and ID are defined in the /etc/passwd file, which also contains other information about the user. A user's group memberships are defined by fields in the /etc/passwd and /etc/group files. A further file, /etc/shadow, which can be read only by privileged processes, is used to separate the sensitive password information from the publicly available user information in /etc/passwd.
 
 ## Chapter 17. Access Control Lists
 From version 2.6 onward, Linux supports ACLs. ACLs extend the traditional UNIX file permissions model, allowing file permissions to be controlled on a per-user and per-group basis.
@@ -35,7 +35,7 @@ In general, it is preferable to write simple signal handlers. One important reas
 ## Chapter 22. Signals: Advanced Features
 ### 22.1 Core Dump Files
 - Certain signals cause a process to create a core dump and terminate. A core dump is a file containing a memory image of the process at the
-time it terminated. (The term core derives from an old memory technology.) This memory image includes the contents of the process’s address space, including the program code, data, heap, and stack segments.
+time it terminated. (The term core derives from an old memory technology.) This memory image includes the contents of the process's address space, including the program code, data, heap, and stack segments.
 
 ### 22.12 Interprocess Communication with Signals
 Not a great idea, because:
@@ -59,7 +59,7 @@ signal number, and in the case of realtime signals, a word (an integer or a poin
 ## Chapter 26. Program Execution
 
 ### 27.1 Executing a New Program: execve()
-- The execve() system call loads a new program into a process’s memory. During this operation, the old program is discarded, and the process’s stack, data, and heap are replaced by those of the new program. After executing various C library run-time startup code and program initialization code the new program commences execution at its main() function.
+- The execve() system call loads a new program into a process's memory. During this operation, the old program is discarded, and the process's stack, data, and heap are replaced by those of the new program. After executing various C library run-time startup code and program initialization code the new program commences execution at its main() function.
 
 ### 27.3 Interpreter Scripts
 - An interpreter is a program that reads commands in text form and executes them. (This contrasts with a compiler, which translates input source code into a machine language that can then be executed on a real or virtual machine.) Examples of interpreters include the various UNIX shells and programs such as awk, sed, perl, python, and ruby. In addition to being able to read and execute commands interactively, interpreters usually provide a facility to read and execute commands from a text file, referred to as a script.
@@ -68,7 +68,7 @@ signal number, and in the case of realtime signals, a word (an integer or a poin
 
 ### 27.8 Summary
 - Using execve(), a process can replace the program that it is currently running by a new program. Arguments to the execve() call allow the specification of the argument list (argv) and environment list for the new program. Various similarly named library functions are layered on top of execve() and provide different interfaces to the same functionality.
-- All of the exec() functions can be used to load a binary executable file or to execute an interpreter script. When a process execs a script, the script’s interpreter program replaces the program currently being executed by the process. The script’s interpreter is normally identified by an initial line (starting with the characters #!) in the script that specifies the pathname of the interpreter. If no such line is present, then the script is executable only via execlp() or execvp(), and these functions exec the shell as the script interpreter.
+- All of the exec() functions can be used to load a binary executable file or to execute an interpreter script. When a process execs a script, the script's interpreter program replaces the program currently being executed by the process. The script's interpreter is normally identified by an initial line (starting with the characters #!) in the script that specifies the pathname of the interpreter. If no such line is present, then the script is executable only via execlp() or execvp(), and these functions exec the shell as the script interpreter.
 
 ## Chapter 35. Process Priorities and Scheduling
 - We begin by describing the nice value, a process characteristic that influences the amount of CPU time that a process is allocated by the kernel scheduler.
@@ -76,26 +76,26 @@ signal number, and in the case of realtime signals, a word (an integer or a poin
 ### 35.1 Process Priorities (Nice Values)
 On Linux, as with most other UNIX implementations, the default model for scheduling processes for use of the CPU is round-robin time-sharing. Under this model, each process in turn is permitted to use the CPU for a brief period of time, known as a time slice or quantum. Round-robin time-sharing satisfies two important requirements of an interactive multitasking system:
 1. Fairness: Each process gets a share of the CPU.
-2. Responsiveness: A process doesn’t need to wait for long periods before it receives use of the CPU.
+2. Responsiveness: A process doesn't need to wait for long periods before it receives use of the CPU.
 
-- Under the round-robin time-sharing algorithm, processes can’t exercise direct control over when and for how long they will be able to use the CPU. By default, each process in turn receives use of the CPU until its time slice runs out or it voluntarily gives up the CPU (for example, by putting itself to sleep or performing a disk read). If all processes attempt to use the CPU as much as possible (i.e., no process ever sleeps or blocks on an I/O operation), then they will receive a roughly equal share of the CPU.
-- However, one process attribute, the nice value, allows a process to indirectly influence the kernel’s scheduling algorithm. Each process has a nice value in the range –20 (high priority) to +19 (low priority); the default is 0 (refer to Figure 35-1). In traditional UNIX implementations, only privileged processes can assign themselves (or other processes) a negative (high) priority. Unprivileged processes can only lower their priority, by assuming a nice value greater than the default of 0. By doing this, they are being “nice” to other processes, and this fact gives the attribute its name.
+- Under the round-robin time-sharing algorithm, processes can't exercise direct control over when and for how long they will be able to use the CPU. By default, each process in turn receives use of the CPU until its time slice runs out or it voluntarily gives up the CPU (for example, by putting itself to sleep or performing a disk read). If all processes attempt to use the CPU as much as possible (i.e., no process ever sleeps or blocks on an I/O operation), then they will receive a roughly equal share of the CPU.
+- However, one process attribute, the nice value, allows a process to indirectly influence the kernel's scheduling algorithm. Each process has a nice value in the range –20 (high priority) to +19 (low priority); the default is 0 (refer to Figure 35-1). In traditional UNIX implementations, only privileged processes can assign themselves (or other processes) a negative (high) priority. Unprivileged processes can only lower their priority, by assuming a nice value greater than the default of 0. By doing this, they are being “nice” to other processes, and this fact gives the attribute its name.
 - The nice value is inherited by a child created via fork() and preserved across an exec().
 
 ### Effect of the nice value
-- Processes are not scheduled in a strict hierarchy by nice value; rather, the nice value acts as weighting factor that causes the kernel scheduler to favor processes with higher priorities. Giving a process a low priority (i.e., high nice value) won’t cause it to be completely starved of the CPU, but causes it to receive relatively less CPU time.
+- Processes are not scheduled in a strict hierarchy by nice value; rather, the nice value acts as weighting factor that causes the kernel scheduler to favor processes with higher priorities. Giving a process a low priority (i.e., high nice value) won't cause it to be completely starved of the CPU, but causes it to receive relatively less CPU time.
 
 ### 35.5 Summary
-- The default kernel scheduling algorithm employs a round-robin time-sharing policy. By default, all processes have equal access to the CPU under this policy, but we can set a process’s nice value to a number in the range –20 (high priority) to +19 (low priority) to cause the scheduler to favor or disfavor that process. However, even if we give a process the lowest priority, it is not completely starved of the CPU.
+- The default kernel scheduling algorithm employs a round-robin time-sharing policy. By default, all processes have equal access to the CPU under this policy, but we can set a process's nice value to a number in the range –20 (high priority) to +19 (low priority) to cause the scheduler to favor or disfavor that process. However, even if we give a process the lowest priority, it is not completely starved of the CPU.
 - Linux also implements the POSIX realtime scheduling extensions. These allow an application to precisely control the allocation of the CPU to processes.
-- A process’s CPU affinity mask can be used to restrict the process to running on a subset of the CPUs available on a multiprocessor system. This can improve the performance of certain types of applications.
+- A process's CPU affinity mask can be used to restrict the process to running on a subset of the CPUs available on a multiprocessor system. This can improve the performance of certain types of applications.
 
 # Chapter 36. Process Resources
 - Processes consume various system resources. The getrusage() system call allows a process to monitor certain of the resources consumed by itself and by its children.
-- The setrlimit() and getrlimit() system calls allow a process to set and retrieve limits on its consumption of various resources. Each resource limit has two components: a soft limit, which is what the kernel enforces when checking a process’s resource consumption, and a hard limit, which acts as a ceiling on the value of the soft limit. An unprivileged process can set the soft limit for a resource to any value in the range from 0 up to the hard limit, but can only lower the hard limit. A privileged process can make any changes to either limit value, as long as the soft limit is less than or equal to the hard limit. If a process encounters a soft limit, it is typically informed of the fact either by receiving a signal or via failure of the system call that attempts to exceed the limit.
+- The setrlimit() and getrlimit() system calls allow a process to set and retrieve limits on its consumption of various resources. Each resource limit has two components: a soft limit, which is what the kernel enforces when checking a process's resource consumption, and a hard limit, which acts as a ceiling on the value of the soft limit. An unprivileged process can set the soft limit for a resource to any value in the range from 0 up to the hard limit, but can only lower the hard limit. A privileged process can make any changes to either limit value, as long as the soft limit is less than or equal to the hard limit. If a process encounters a soft limit, it is typically informed of the fact either by receiving a signal or via failure of the system call that attempts to exceed the limit.
 
 ## Chapter 57. Sockets: UNIX Domain
 - UNIX domain sockets allow communication between applications on the same host. The UNIX domain supports both stream and datagram sockets.
 - A UNIX domain socket is identified by a pathname in the file system. File permissions can be used to control access to a UNIX domain socket.
 - The socketpair() system call creates a pair of connected UNIX domain sockets. This avoids the need for multiple system calls to create, bind, and connect the sockets. A socket pair is normally used in a similar fashion to a pipe: one process creates the socket pair and then forks to create a child that inherits descriptors referring to the sockets. The two processes can then communicate via the socket pair.
-- The Linux-specific abstract socket namespace allows us to bind a UNIX domain socket to a name that doesn’t appear in the file system.
+- The Linux-specific abstract socket namespace allows us to bind a UNIX domain socket to a name that doesn't appear in the file system.

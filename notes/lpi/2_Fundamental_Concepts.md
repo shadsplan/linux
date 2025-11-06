@@ -7,7 +7,7 @@
         - CPUs execute the instructions of programs.
         - Linux is a preemptive multitasking operating system, Multitasking means that multiple processes (i.e., running programs) can simultaneously reside in memory and each may receive use of the CPU(s). Preemptive means that the rules governing which processes receive use of the CPU and for how long are determined by the kernel process scheduler (rather than by the processes themselves).
     - Memory Management:
-        - Processes are isolated from one another and from the kernel, so that one process can’t read or modify the memory of another process or the kernel.
+        - Processes are isolated from one another and from the kernel, so that one process can't read or modify the memory of another process or the kernel.
         - Only part of a process needs to be kept in memory, thereby lowering the memory requirements of each process and allowing more processes to be held in RAM simultaneously. This leads to better CPU utilization, as the kernel can swap processes in and out of memory as needed. held in RAM simultaneously. This leads to better CPU utilization.
     - Provision of a file system: The kernel provides a file system on disk, allowing files to be created, retrieved, updated, deleted, and so on.
     - Creation and termination of processes: The kernel can load a new program into memory, providing it with the resources (e.g., CPU, memory, and access to files) that it needs in order to run. Such an instance of a running program is termed a process. Once a process has completed execution, the kernel ensures that the resources it uses are freed for subsequent reuse by later programs.
@@ -32,7 +32,7 @@
 - A directory is a special file whose contents take the form of a table of filenames coupled with references to the corresponding files. This filename-plus-reference association is called a link.
 
 ## 2.5 File I/O Model
-- One of the distinguishing features of the I/O model on UNIX systems is the concept of universality of I/O. This means that the same system calls (open(), read(), write(), close(), and so on) are used to perform I/O on all types of files, including devices. (The kernel translates the application’s I/O requests into appropriate filesystem or device-driver operations that perform I/O on the target file or device.)
+- One of the distinguishing features of the I/O model on UNIX systems is the concept of universality of I/O. This means that the same system calls (open(), read(), write(), close(), and so on) are used to perform I/O on all types of files, including devices. (The kernel translates the application's I/O requests into appropriate filesystem or device-driver operations that perform I/O on the target file or device.)
 - UNIX systems have no end-of-file character; the end of a file is detected by a read that returns no data.
 
 ## 2.6 Programs
@@ -51,15 +51,15 @@
 - Stack: a piece of memory that grows and shrinks as functions are called and return and that is used to allocate storage for local variables and function call linkage information.
 
 ### Process creation and program execution
-- A process can create a new process using the fork() system call. The process that calls fork() is referred to as the parent process, and the new process is referred to as the child process. The kernel creates the child process by making a duplicate of the parent process. The child inherits copies of the parent’s data, stack, and heap segments, which it may then modify independently of the parent’s copies.
+- A process can create a new process using the fork() system call. The process that calls fork() is referred to as the parent process, and the new process is referred to as the child process. The kernel creates the child process by making a duplicate of the parent process. The child inherits copies of the parent's data, stack, and heap segments, which it may then modify independently of the parent's copies.
 - The child process goes on either to execute a different set of functions in the same code as the parent, or, frequently, to use the execve() system call to load and execute an entirely new program. An execve() call destroys the existing text, data, stack, and heap segments, replacing them with new segments based on the code of the new program.
 
 ### The init process
 - When booting the system, the kernel creates a special process called init, the “parent of all processes,” which is derived from the program file /sbin/init. All processes on the system are created (using fork()) either by init or by one of its descendants.
-The init process always has the process ID 1 and runs with superuser privileges. The init process can’t be killed (not even by the superuser), and it terminates only when the system is shut down. The main task of init is to create and monitor a range of processes required by a running system.
+The init process always has the process ID 1 and runs with superuser privileges. The init process can't be killed (not even by the superuser), and it terminates only when the system is shut down. The main task of init is to create and monitor a range of processes required by a running system.
 
 ### Environment List
-- When a new process is created via fork(), it inherits a copy of its parent’s environment. Thus, the environment provides a mechanism for a parent process to communicate information to a child process. When a process replaces the program that it is running using exec(), the new program either inherits the environment used by the old program or receives a new environment specified as part of the exec() call.
+- When a new process is created via fork(), it inherits a copy of its parent's environment. Thus, the environment provides a mechanism for a parent process to communicate information to a child process. When a process replaces the program that it is running using exec(), the new program either inherits the environment used by the old program or receives a new environment specified as part of the exec() call.
 
 ``` bash
 # This is why below works:
@@ -69,9 +69,9 @@ hello world
 ```
 
 ## 2.8 Memory Mappings
-- The memory in one process’s mapping may be shared with mappings in other processes. This can occur either because two processes map the same region of a file or because a child process created by fork() inherits a mapping from its parent. Two types of mappings:
-    - A file mapping maps a region of a file into the calling process’s virtual memory. Once mapped, the file’s contents can be accessed by operations on the bytes in the corresponding memory region. The pages of the mapping are automatically loaded from the file as required.
-    - By contrast, an anonymous mapping doesn’t have a corresponding file. Instead, the pages of the mapping are initialized to 0.
+- The memory in one process's mapping may be shared with mappings in other processes. This can occur either because two processes map the same region of a file or because a child process created by fork() inherits a mapping from its parent. Two types of mappings:
+    - A file mapping maps a region of a file into the calling process's virtual memory. Once mapped, the file's contents can be accessed by operations on the bytes in the corresponding memory region. The pages of the mapping are automatically loaded from the file as required.
+    - By contrast, an anonymous mapping doesn't have a corresponding file. Instead, the pages of the mapping are initialized to 0.
 - This was that IOS project I did where we used shared memory for IPC between processes.
 
 ## 2.10 Interprocess Communication and Synchronization

@@ -37,12 +37,12 @@ Regular files and directories typically reside on hard disk devices.
   - Data blocks: The great majority of space in a file system is used for the blocks of data that form the files and directories residing in the file system.
 
 ## 14.4 I-nodes
-A file system’s i-node table contains one i-node (short for index node) for each file residing in the file system. I-nodes are identified numerically by their sequential location in the i-node table. The i-node number (or simply i-number) of a file is the first field displayed by the ls –li command. The information maintained in an i-node includes the following:
+A file system's i-node table contains one i-node (short for index node) for each file residing in the file system. I-nodes are identified numerically by their sequential location in the i-node table. The i-node number (or simply i-number) of a file is the first field displayed by the ls –li command. The information maintained in an i-node includes the following:
 - File type (e.g., regular file, directory, symbolic link, character device).
 - Owner (also referred to as the user ID or UID) for the file.
 - Group (also referred to as the group ID or GID) for the file.
 - Access permissions for three categories of user: owner (sometimes referred to as user), group, and other (the rest of the world)
-- Three timestamps: time of last access to the file (shown by ls –lu), time of last modification of the file (the default time shown by ls –l), and time of last status change (last change to i-node information, shown by ls –lc). As on other UNIX implementations, it is notable that most Linux file systems don’t record the creation time of a file.
+- Three timestamps: time of last access to the file (shown by ls –lu), time of last modification of the file (the default time shown by ls –l), and time of last status change (last change to i-node information, shown by ls –lc). As on other UNIX implementations, it is notable that most Linux file systems don't record the creation time of a file.
 - Number of hard links to the file.
 - Size of the file in bytes.
 - Number of blocks actually allocated to the file, measured in units of 512-byte blocks. There may not be a simple correspondence between this number and the size of the file in bytes, since a file can contain holes (Section 4.7), and thus require fewer allocated blocks than would be expected according to its nominal size in bytes.
@@ -50,7 +50,7 @@ A file system’s i-node table contains one i-node (short for index node) for ea
 
 ### I-node and data block pointers in ext2
 
-- Like most UNIX file systems, the ext2 file system doesn’t store the data blocks of a file contiguously or even in sequential order (though it does attempt to store them close to one another). To locate the file data blocks, the kernel maintains a set of pointers in the i-node.
+- Like most UNIX file systems, the ext2 file system doesn't store the data blocks of a file contiguously or even in sequential order (though it does attempt to store them close to one another). To locate the file data blocks, the kernel maintains a set of pointers in the i-node.
 - Under ext2, each i-node contains 15 pointers.
     - The first 12 of these pointers (numbered 0 to 11 in Figure 14-2) point to the location in the file system of the first 12 blocks of the file.
     - The next pointer is a pointer to a block of pointers that give the locations of the thirteenth and subsequent data blocks of the file. The number of pointers in this block depends on the block size of the file system. Each pointer requires 4 bytes, so there may be from 256 pointers (for a 1024-byte block size) to 1024 pointers (for a 4096-byte block size). This allows for quite large files.
@@ -83,7 +83,7 @@ virtual file switch) is a kernel feature that resolves this problem by creating 
 
 ## 14.7 Single Directory Hierarchy and Mount Points
 - On Linux, as on other UNIX systems, all files from all file systems reside under a single directory tree. At the base of this tree is the root directory, / (slash). Other file systems are mounted under the root directory and appear as subtrees within the overall hierarchy.
-- `mount device directory`: This command attaches the file system on the named device into the directory hierarchy at the specified directory—the file system’s mount point.
+- `mount device directory`: This command attaches the file system on the named device into the directory hierarchy at the specified directory—the file system's mount point.
 
 ``` bash
 $ mount
@@ -126,8 +126,8 @@ shad@linux:~/linux/notes/lpi$ cat /proc/mounts
 ## 14.12 Summary
 
 - Devices are represented by entries in the /dev directory. Each device has a corresponding device driver, which implements a standard set of operations, including those corresponding to the open(), read(), write(), and close() system calls. A device may be real, meaning that there is a corresponding hardware device, or virtual, meaning that no hardware device exists, but the kernel nevertheless provides a device driver that implements an API that is the same as a real device.
-- A hard disk is divided into one or more partitions, each of which may contain a file system. A file system is an organized collection of regular files and directories. Linux implements a wide variety of file systems, including the traditional ext2 file system. The ext2 file system is conceptually similar to early UNIX file systems, consisting of a boot block, a superblock, an i-node table, and a data area containing file data blocks. Each file has an entry in the file system’s i-node table. This entry contains various information about the file, including its type, size, link count, ownership,
-permissions, timestamps, and pointers to the file’s data blocks.
+- A hard disk is divided into one or more partitions, each of which may contain a file system. A file system is an organized collection of regular files and directories. Linux implements a wide variety of file systems, including the traditional ext2 file system. The ext2 file system is conceptually similar to early UNIX file systems, consisting of a boot block, a superblock, an i-node table, and a data area containing file data blocks. Each file has an entry in the file system's i-node table. This entry contains various information about the file, including its type, size, link count, ownership,
+permissions, timestamps, and pointers to the file's data blocks.
 - Linux provides a range of journaling file systems, including Reiserfs, ext3, ext4, XFS, JFS, and Btrfs. A journaling file system records metadata updates (and optionally on some file systems, data updates) to a log file before the actual file updates are performed. This means that in the event of a system crash, the log file can be
 replayed to quickly restore the file system to a consistent state. The key benefit of journaling file systems is that they avoid the lengthy file-system consistency checks required by conventional UNIX file systems after a system crash.
 - All file systems on a Linux system are mounted under a single directory tree, with the directory / at its root. The location at which a file system is mounted in the

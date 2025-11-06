@@ -4,7 +4,7 @@
 
 ## Chapter 34.1 Overview
 
-- A process group is a set of one or more processes sharing the same process group identifier (PGID). A process group ID is a number of the same type (pid_t) as a process ID. A process group has a process group leader, which is the process that creates the group and whose process ID becomes the process group ID of the group. A new process inherits its parent’s process group ID.
+- A process group is a set of one or more processes sharing the same process group identifier (PGID). A process group ID is a number of the same type (pid_t) as a process ID. A process group has a process group leader, which is the process that creates the group and whose process ID becomes the process group ID of the group. A new process inherits its parent's process group ID.
 - A process group has a lifetime, which is the period of time beginning when the leader creates the group and ending when the last member process leaves the group. A process may leave a process group either by terminating or by joining another process group.
 - All of the processes in a session share a single controlling terminal. The controlling terminal is established when the session leader first opens a terminal device. A terminal may be the controlling terminal of at most one session.
 - At any point in time, one of the process groups in a session is the foreground process group for the terminal, and the others are background process groups. Only processes in the foreground process group can read input from the controlling terminal. When the user types one of the signal-generating terminal characters on the controlling terminal, a signal is sent to all members of the foreground process group. These characters are the interrupt character (usually Control-C), which generates SIGINT; the quit character (usually Control-\), which generates SIGQUIT; and the suspend character (usually Control-Z), which generates SIGTSTP.
@@ -37,10 +37,10 @@ shad@linux:~/linux/notes$ ps -axjf | grep -E "PPID|apache2"
    2435    2439    2435    2435 ?             -1 Sl      33   0:00  \_ /usr/sbin/apache2 -k start
 ``` 
 
-- Each process has a numeric process group ID that defines the process group to which it belongs. A new process inherits its parent’s process group ID.
+- Each process has a numeric process group ID that defines the process group to which it belongs. A new process inherits its parent's process group ID.
 
 ## 34.3 Sessions
-- A session is a collection of process groups. The session membership of a process is defined by its numeric session ID. A new process inherits its parent’s session ID.
+- A session is a collection of process groups. The session membership of a process is defined by its numeric session ID. A new process inherits its parent's session ID.
 
 ## 34.4 Controlling Terminals and Controlling Processes
 - All of the processes in a session may have a (single) controlling terminal. Upon creation, a session has no controlling terminal; the controlling terminal is established when the session leader first opens a terminal that is not already the controlling terminal for a session.
@@ -52,5 +52,5 @@ shad@linux:~/linux/notes$ ps -axjf | grep -E "PPID|apache2"
 
 ## 34.8 Summary
 - Sessions and process groups (also known as jobs) form a two-level hierarchy of processes: a session is a collection of process groups, and a process group is a collection of processes. A session leader is the process that created the session using setsid(). Similarly, a process group leader is the process that created the group using setpgid(). All of the members of a process group share the same process group ID (which is the same as the process group ID of the process group leader), and all processes in the process groups that constitute a session have the same session ID (which is the same as the ID of the session leader). Each session may have a controlling terminal (/dev/tty), which is established when the session leader opens a terminal device. Opening the controlling terminal also causes the session leader to become the controlling process for the terminal.
-- The notion of the terminal’s foreground job is also used to arbitrate terminal I/O requests. Only processes in the foreground job may read from the controlling terminal.
+- The notion of the terminal's foreground job is also used to arbitrate terminal I/O requests. Only processes in the foreground job may read from the controlling terminal.
 - When a terminal disconnect occurs, the kernel delivers a SIGHUP signal to the controlling process to inform it of the fact. Such an event may result in a chain reaction. whereby a SIGHUP signal is delivered to many other processes. First, if the controlling process is a shell (as is typically the case), then, before terminating, the shell sends SIGHUP to each of the process groups it has created. Second, if delivery of SIGHUP results in termination of a controlling process, then the kernel also sends SIGHUP to all of the members of the foreground process group of the controlling terminal.

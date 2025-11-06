@@ -19,7 +19,7 @@ It is a convention (not universally observed) that daemons have names ending wit
 To become a daemon, a program performs the following steps:
 
 1. Perform a fork(), after which the parent exits and the child continues. (As a consequence, the daemon becomes a child of the init process.) This step is done for two reasons:
-– Assuming the daemon was started from the command line, the parent’s termination is noticed by the shell, which then displays another shell prompt and leaves the child to continue in the background.
+– Assuming the daemon was started from the command line, the parent's termination is noticed by the shell, which then displays another shell prompt and leaves the child to continue in the background.
 – The child process is guaranteed not to be a process group leader, since it inherited its process group ID from its parent and obtained its own unique process ID, which differs from the inherited process group ID. This is required in order to be able to successfully perform the next step.
 2. The child process calls setsid() (Section 34.3) to start a new session and detach itself from the terminal.
 
@@ -28,7 +28,7 @@ To become a daemon, a program performs the following steps:
 - Many daemons need to ensure that just one instance of the daemon is active at one time. For example, it makes no sense to have two copies of the cron daemon both trying to execute scheduled jobs.
 
 ## 37.5 Logging Messages and Errors using syslog
-When writing a daemon, one problem we encounter is how to display error messages. Since a daemon runs in the background, we can’t display messages on an associated terminal, as we would typically do with other programs. One possible alternative is to write messages to an application-specific log file, as is done in the program in Listing 37-3. The main problem with this approach is that it is difficult for a system administrator to manage multiple application log files and monitor them all for error messages. The syslog facility was devised to address this problem.
+When writing a daemon, one problem we encounter is how to display error messages. Since a daemon runs in the background, we can't display messages on an associated terminal, as we would typically do with other programs. One possible alternative is to write messages to an application-specific log file, as is done in the program in Listing 37-3. The main problem with this approach is that it is difficult for a system administrator to manage multiple application log files and monitor them all for error messages. The syslog facility was devised to address this problem.
 
 ### 37.5.1 Overview
 - The syslog facility provides a single, centralized logging facility that can be used to log messages by all applications on the system. An overview of this facility is provided in Figure 37-1.

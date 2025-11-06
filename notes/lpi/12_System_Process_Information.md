@@ -9,7 +9,7 @@
     - What files are currently locked, and which processes hold the locks?
     - What sockets are being used on the system?
 - In order to provide easier access to kernel information, many modern UNIX implementations provide a /proc virtual file system. This file system resides under the /proc directory and contains various files that expose kernel information, allowing processes to conveniently read that information, and change it in some cases, using normal file I/O system calls.
-- **The /proc file system is said to be virtual because the files and subdirectories that it contains don’t reside on a disk. Instead, the kernel creates them “on the fly” as processes access them.**
+- **The /proc file system is said to be virtual because the files and subdirectories that it contains don't reside on a disk. Instead, the kernel creates them “on the fly” as processes access them.**
 
 ``` bash
 shad@linux:~/linux/notes/lpi$ ps aux | grep "apache2"

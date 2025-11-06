@@ -8,7 +8,7 @@ Internet domain stream sockets are implemented on top of TCP. They provide a rel
 
 Internet domain datagram sockets are implemented on top of UDP. UDP sockets are similar to their UNIX domain counterparts, but note the following differences:
     - UNIX domain datagram sockets are reliable, but UDP sockets are not—datagrams may be lost, duplicated, or arrive in a different order from that in which they were sent.
-    - Sending on a UNIX domain datagram socket will block if the queue of data for the receiving socket is full. By contrast, with UDP, if the incoming datagram would overflow the receiver’s queue, then the datagram is silently dropped.
+    - Sending on a UNIX domain datagram socket will block if the queue of data for the receiving socket is full. By contrast, with UDP, if the incoming datagram would overflow the receiver's queue, then the datagram is silently dropped.
 
 
 ## 59.3 Data Representation
@@ -29,10 +29,10 @@ The following methods are available for representing host addresses and ports:
 - Before the advent of DNS, mappings between hostnames and IP addresses were defined in a manually maintained local file, /etc/hosts. However, the /etc/hosts scheme scales poorly, and then becomes impossible, as the number of hosts in the network increases (e.g., the Internet, with millions of hosts).
 - DNS was devised to address this problem. The key ideas of DNS are the following:
     - Hostnames are organized into a hierarchical namespace (Figure 59-2). Each node in the DNS hierarchy has a label (name), which may be up to 63 characters. At the root of the hierarchy is an unnamed node, the “anonymous root.”
-    - A node’s domain name consists of all of the names from that node up to the root concatenated together, with each name separated by a period (.). For example, google.com is the domain name for the node google.
+    - A node's domain name consists of all of the names from that node up to the root concatenated together, with each name separated by a period (.). For example, google.com is the domain name for the node google.
     - A fully qualified domain name (FQDN), such as www.kernel.org., identifies a host within the hierarchy. A fully qualified domain name is distinguished by being terminated by a period, although in many contexts the period may be omitted.
     - No single organization or system manages the entire hierarchy. Instead, there is a hierarchy of DNS servers, each of which manages a branch (a zone) of the tree. Normally, each zone has a primary master name server, and one or more secondary name servers, which provide backup in the event that the primary master name server crashes. Zones may themselves be divided into separately managed smaller zones. When a host is added within a zone, or the mapping of a hostname to an IP address is changed, the administrator responsible for the corresponding local name server updates the name database on that server. (No manual changes are required on any other name-server databases in the hierarchy.)
-    - When a program calls getaddrinfo() to resolve (i.e., obtain the IP address for) a domain name, getaddrinfo() employs a suite of library functions (the resolver library) that communicate with the local DNS server. If this server can’t supply the required information, then it communicates with other DNS servers within the hierarchy in order to obtain the information. Occasionally, this resolution process may take a noticeable amount of time, and DNS servers employ caching techniques to avoid unnecessary communication for frequently queried domain names.
+    - When a program calls getaddrinfo() to resolve (i.e., obtain the IP address for) a domain name, getaddrinfo() employs a suite of library functions (the resolver library) that communicate with the local DNS server. If this server can't supply the required information, then it communicates with other DNS servers within the hierarchy in order to obtain the information. Occasionally, this resolution process may take a noticeable amount of time, and DNS servers employ caching techniques to avoid unnecessary communication for frequently queried domain names.
 
 ### Recursive and Iterative Resolution Requests
 - DNS resolution requests fall into two categories: recursive and iterative.

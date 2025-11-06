@@ -6,7 +6,7 @@
 
 - The remaining 9 bits form the mask defining the permissions that are granted to various categories of users accessing the file. The file permissions mask divides the world into three categories:
   - Owner (also known as user): The permissions granted to the owner of the file.
-  - Group: The permissions granted to users who are members of the file’s group.
+  - Group: The permissions granted to users who are members of the file's group.
   - Other: The permissions granted to everyone else.
 - Three permissions may be granted to each user category:
   - Read: The contents of the file may be read.
@@ -20,7 +20,7 @@
     - Execute: Files within the directory may be accessed. Execute permission on a directory is sometimes called search permission.
 - When accessing a file, execute permission is required on all of the directories listed in the pathname. For example, reading the file /home/mtk/x would require execute permission on /, /home, and /home/mtk (as well as read permission on the file x itself). If the current working directory is /home/mtk/sub1 and we access the relative pathname ../sub2/x, then we need execute permission on /home/mtk and /home/mtk/sub2 (but not on / or /home).
 - Read permission on a directory only lets us view the list of filenames in the directory. We must have execute permission on the directory in order to access the contents or the i-node information of files in the directory.
-- Conversely, if we have execute permission on a directory, but not read permission, then we can access a file in the directory if we know its name, but we can’t list the contents of (i.e., the other filenames in) the directory. This is a simple and frequently used technique to control access to the contents of a public directory.
+- Conversely, if we have execute permission on a directory, but not read permission, then we can access a file in the directory if we know its name, but we can't list the contents of (i.e., the other filenames in) the directory. This is a simple and frequently used technique to control access to the contents of a public directory.
 - To add or remove files in a directory, we need both execute and write permissions on the directory.
 
 ## 15.6 Summary
