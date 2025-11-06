@@ -66,4 +66,25 @@ tcp   LISTEN 0      5            0.0.0.0:8080          0.0.0.0:*     users:(("py
 shad@linux:~$ lsof -i :8080
 COMMAND  PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 python3 4006 shad    3u  IPv4  33974      0t0  TCP *:http-alt (LISTEN)
+
+# EDIT: apache2 (processes) does show up if we use sudo:
+shad@linux:~/linux$ sudo ss -tupna
+Netid  State   Recv-Q  Send-Q   Local Address:Port     Peer Address:Port   Process                                                                                 
+udp    UNCONN  0       0           127.0.0.54:53            0.0.0.0:*       users:(("systemd-resolve",pid=532,fd=16))                                              
+udp    UNCONN  0       0        127.0.0.53%lo:53            0.0.0.0:*       users:(("systemd-resolve",pid=532,fd=14))                                              
+udp    UNCONN  0       0        10.0.0.4%eth0:68            0.0.0.0:*       users:(("systemd-network",pid=694,fd=21))                                              
+udp    UNCONN  0       0            127.0.0.1:323           0.0.0.0:*       users:(("chronyd",pid=921,fd=6))                                                       
+udp    UNCONN  0       0                [::1]:323              [::]:*       users:(("chronyd",pid=921,fd=7))                                                       
+tcp    LISTEN  0       4096        127.0.0.54:53            0.0.0.0:*       users:(("systemd-resolve",pid=532,fd=17))                                              
+tcp    LISTEN  0       4096     127.0.0.53%lo:53            0.0.0.0:*       users:(("systemd-resolve",pid=532,fd=15))                                              
+tcp    LISTEN  0       1024         127.0.0.1:33999         0.0.0.0:*       users:(("code-7d842fb85a",pid=1276,fd=9))                                              
+tcp    LISTEN  0       4096           0.0.0.0:22            0.0.0.0:*       users:(("sshd",pid=1120,fd=3),("systemd",pid=1,fd=55))                                 
+tcp    ESTAB   0       0            127.0.0.1:55432       127.0.0.1:33999   users:(("sshd",pid=1255,fd=8))                                                         
+tcp    ESTAB   0       0            127.0.0.1:33999       127.0.0.1:55432   users:(("code-7d842fb85a",pid=1276,fd=12))                                             
+tcp    ESTAB   0       0             10.0.0.4:54142   20.85.130.105:443     users:(("node",pid=1420,fd=40))                                                        
+tcp    ESTAB   0       0             10.0.0.4:54154   20.85.130.105:443     users:(("node",pid=1420,fd=63))                                                        
+tcp    ESTAB   0       316           10.0.0.4:22       108.28.[REDACTED]:51424   users:(("sshd",pid=1255,fd=4),("sshd",pid=1121,fd=4))                                  
+tcp    ESTAB   0       0             10.0.0.4:51976   140.82.112.22:443     users:(("node",pid=1420,fd=38))                                                        
+tcp    LISTEN  0       511                  *:80                  *:*       users:(("apache2",pid=3129,fd=4),("apache2",pid=3128,fd=4),("apache2",pid=3125,fd=4))  
+tcp    LISTEN  0       4096              [::]:22               [::]:*       users:(("sshd",pid=1120,fd=4),("systemd",pid=1,fd=56))                                 
 ```

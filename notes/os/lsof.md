@@ -86,14 +86,14 @@ sshd      10493            shad    8u  IPv4  60257      0t0  TCP localhost:60962
 code-7d84 10512            shad    9u  IPv4  59331      0t0  TCP localhost:37757 (LISTEN)
 code-7d84 10512            shad   12u  IPv4  59350      0t0  TCP localhost:37757->localhost:60962 (ESTABLISHED)
 node      10535            shad   44u  IPv4 172563      0t0  TCP linux.internal.cloudapp.net:34916->lb-140-82-112-22-iad.github.com:https (ESTABLISHED)
-node      10535            shad   50u  IPv4 172850      0t0  TCP linux.internal.cloudapp.net:36440->20.85.[redacted]:https (ESTABLISHED)
-node      10535            shad   53u  IPv4 173681      0t0  TCP linux.internal.cloudapp.net:36446->20.85.[redacted]:https (ESTABLISHED)
+node      10535            shad   50u  IPv4 172850      0t0  TCP linux.internal.cloudapp.net:36440->20.85.[REDACTED]:https (ESTABLISHED)
+node      10535            shad   53u  IPv4 173681      0t0  TCP linux.internal.cloudapp.net:36446->20.85.[REDACTED]:https (ESTABLISHED)
 node      10535            shad   64u  IPv4 174139      0t0  TCP linux.internal.cloudapp.net:58740->lb-140-82-113-21-iad.github.com:https (ESTABLISHED)
 
 # Show port numbers and don't resolve hostnames.
 shad@linux:~/linux/notes/os$ sudo lsof -i 4 -P -n | grep sshd
 sshd       1137            root    3u  IPv4   8261      0t0  TCP *:22 (LISTEN)
-sshd      10434            root    4u  IPv4  60114      0t0  TCP 10.0.0.4:22->108.28.[redacted]:60891 (ESTABLISHED)
-sshd      10493            shad    4u  IPv4  60114      0t0  TCP 10.0.0.4:22->108.28.[redacted]:60891 (ESTABLISHED)
+sshd      10434            root    4u  IPv4  60114      0t0  TCP 10.0.0.4:22->108.28.[REDACTED]:60891 (ESTABLISHED)
+sshd      10493            shad    4u  IPv4  60114      0t0  TCP 10.0.0.4:22->108.28.[REDACTED]:60891 (ESTABLISHED)
 sshd      10493            shad    8u  IPv4  60257      0t0  TCP 127.0.0.1:60962->127.0.0.1:37757 (ESTABLISHED)
 ```
