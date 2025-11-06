@@ -93,3 +93,9 @@ On Linux, as with most other UNIX implementations, the default model for schedul
 # Chapter 36. Process Resources
 - Processes consume various system resources. The getrusage() system call allows a process to monitor certain of the resources consumed by itself and by its children.
 - The setrlimit() and getrlimit() system calls allow a process to set and retrieve limits on its consumption of various resources. Each resource limit has two components: a soft limit, which is what the kernel enforces when checking a process’s resource consumption, and a hard limit, which acts as a ceiling on the value of the soft limit. An unprivileged process can set the soft limit for a resource to any value in the range from 0 up to the hard limit, but can only lower the hard limit. A privileged process can make any changes to either limit value, as long as the soft limit is less than or equal to the hard limit. If a process encounters a soft limit, it is typically informed of the fact either by receiving a signal or via failure of the system call that attempts to exceed the limit.
+
+## Chapter 57. Sockets: UNIX Domain
+- UNIX domain sockets allow communication between applications on the same host. The UNIX domain supports both stream and datagram sockets.
+- A UNIX domain socket is identified by a pathname in the file system. File permissions can be used to control access to a UNIX domain socket.
+- The socketpair() system call creates a pair of connected UNIX domain sockets. This avoids the need for multiple system calls to create, bind, and connect the sockets. A socket pair is normally used in a similar fashion to a pipe: one process creates the socket pair and then forks to create a child that inherits descriptors referring to the sockets. The two processes can then communicate via the socket pair.
+- The Linux-specific abstract socket namespace allows us to bind a UNIX domain socket to a name that doesn’t appear in the file system.
