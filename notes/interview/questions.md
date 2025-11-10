@@ -529,7 +529,7 @@ Linux linux 6.14.0-1014-azure #14~24.04.1-Ubuntu SMP Fri Oct  3 20:52:11 UTC 202
 shad@linux:~/linux$ w
  17:21:43 up  2:44,  1 user,  load average: 0.24, 0.26, 0.23
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU  WHAT
-shad              108.28.48.51     14:38    2:37m  0.00s  0.01s sshd: shad [priv]
+shad              108.28.[REDACTED]     14:38    2:37m  0.00s  0.01s sshd: shad [priv]
 
 # This merges into checking the OS version
 shad@linux:~/linux$ cat /etc/*release*

@@ -1,0 +1,3 @@
+# ignore the lab_files folder
+logs/
+src/lab[0-9][0-9][0-9]

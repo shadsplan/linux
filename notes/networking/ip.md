@@ -34,4 +34,17 @@ shad@linux:~/linux/notes/networking$ ip addr show # can also do "ip a"
     altname enP14966p0s2
     inet6 fe80::6245:bdff:feef:f34d/64 scope link 
        valid_lft forever preferred_lft forever
+
+# View the routing table on our system.
+#  
+shad@linux:~$ ip route show
+
+# default gateway. Access something via network, it will go through this route.
+# if we remove this, we can't access the internet.
+default via 10.0.0.1 dev eth0 proto dhcp src 10.0.0.4 metric 100
+
+10.0.0.0/24 dev eth0 proto kernel scope link src 10.0.0.4 metric 100 
+10.0.0.1 dev eth0 proto dhcp scope link src 10.0.0.4 metric 100 
+168.63.129.16 via 10.0.0.1 dev eth0 proto dhcp src 10.0.0.4 metric 100 
+169.254.169.254 via 10.0.0.1 dev eth0 proto dhcp src 10.0.0.4 metric 100 
 ```

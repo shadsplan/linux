@@ -14,8 +14,10 @@ MiB Mem :   7892.2 total,   6056.8 free,   1534.5 used,    552.6 buff/cache
 MiB Swap:      0.0 total,      0.0 free,      0.0 used.   6357.7 avail Mem                                                                                                                                              
 ```
 
-- `up 4:01` means the system has been up for 4 hours and 1 minute. That's when I started the Azure Linux VM.
-- 2 users: Confused as to why that is, because of below. But it could be stale shells due to ssh.
+- Load average is the utilization of CPU cores over time.
+- us: user space (where programs run), sy: kernel space (where the OS runs), ni: nice (priority processes), id: idle, wa: wait (I/O wait) - we generally want this to be low, hi: hardware interrupts, si: software interrupts
+- Memory is in MiB (Mebibytes, 1 MiB = 1024 * 1024 bytes) btw, so we have about 8 GiB of RAM, with 6 GiB free and 1.5 GiB used. 552 MiB the cache is using.
+- Swap is memory typically located on your disk. Too much of it could imply your system is low on RAM.
 
 ``` bash
 shad@linux:~$ sudo w
@@ -26,10 +28,9 @@ shad              108.redacted     17:49    2:55m  0.00s  0.01s sshd: shad [priv
 shad@linux:~$ sudo who
 shad     pts/1        2025-10-28 19:03
 ```
-- Load average is the utilization of CPU cores over time.
-- us: user space (where programs run), sy: kernel space (where the OS runs), ni: nice (priority processes), id: idle, wa: wait (I/O wait) - we generally want this to be low, hi: hardware interrupts, si: software interrupts
-- Memory is in MiB (Mebibytes, 1 MiB = 1024 * 1024 bytes) btw, so we have about 8 GiB of RAM, with 6 GiB free and 1.5 GiB used. 552 MiB the cache is using.
-- Swap is memory typically located on your disk. Too much of it could imply your system is low on RAM.
+
+- `up 4:01` means the system has been up for 4 hours and 1 minute. That's when I started the Azure Linux VM.
+- 2 users: Confused as to why that is, because of below. But it could be stale shells due to ssh.
 
 ``` bash
 PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                               
